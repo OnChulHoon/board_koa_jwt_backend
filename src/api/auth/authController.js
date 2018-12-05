@@ -93,7 +93,12 @@ exports.localLogin = async (ctx) => {
     //     ctx.throw(500, e);
     // }
 
-    if(!account || !account.validatePassword(password)) {
+    if(!account) {
+        ctx.status = 500;
+        return;
+    }
+
+    if(!account.validatePassword(password)) {
         ctx.status = 403;
         return;
     }
@@ -106,7 +111,8 @@ exports.localLogin = async (ctx) => {
     }
 
     ctx.cookies.set('access_token', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
-    ctx.body = account.profile;
+    ctx.body = account;
+    //ctx.data = token;
 
 };
 

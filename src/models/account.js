@@ -9,6 +9,7 @@ const Account = new Schema({
         email: String,
         nickname: String,
         phoneNumber: String,
+        countryCode: String,
     },
     userId: String,
     password: String,
@@ -43,13 +44,14 @@ Account.statics.findByEmailOrUserId = function ({ userId, email }) {
     }).exec();
 };
 
-Account.statics.localRegister = function ({ userId, password, username, email, nickname, phoneNumber }) {
+Account.statics.localRegister = function ({ userId, password, username, email, nickname, phoneNumber, countryCode }) {
     const account = new this({
         profile: {
             username,
             email,
             nickname,
-            phoneNumber
+            phoneNumber,
+            countryCode,
         },
         userId,
         password: hash(password)
