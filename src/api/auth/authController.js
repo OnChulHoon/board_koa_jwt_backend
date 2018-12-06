@@ -1,4 +1,4 @@
-const Joi = require('joi');
+// const Joi = require('joi');
 const Account = require('../../models/account');
 
 
@@ -112,8 +112,6 @@ exports.localLogin = async (ctx) => {
 
     ctx.cookies.set('access_token', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
     ctx.body = account;
-    //ctx.data = token;
-
 };
 
 // userId/email exists confirm
@@ -135,12 +133,19 @@ exports.exists = async (ctx) => {
 
 // logout
 exports.logout = async (ctx) => {
-    ctx.body = 'logout';
-    ctx.cookies.set('access_token', null, {
-        maxAge: 0,
-        httpOnly: true
-    });
-    ctx.status = 204;
+
+    const req = ctx.request.body;
+
+    if(req.actionDo){
+        ctx.cookies.set('access_token', null, {
+            maxAge: 0,
+            httpOnly: true
+        });
+        ctx.status = 200;
+        ctx.body = req;
+    } else {
+        ctx.status = 500;
+    }
 };
 
 exports.check = (ctx) => {
