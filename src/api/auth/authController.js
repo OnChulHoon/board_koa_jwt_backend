@@ -150,6 +150,7 @@ exports.logout = async (ctx) => {
 
 exports.check = (ctx) => {
     const { user } = ctx.request;
+    console.log(user);
 
     if(!user) {
         ctx.status = 403;
@@ -157,3 +158,41 @@ exports.check = (ctx) => {
     }
     ctx.body = user.profile;
 };
+
+exports.userIdCheck = async (ctx) => {
+
+    const { userId } = ctx.request.body;
+
+    let account = null;
+
+    try{
+        account = await Account.findByUserId(userId);
+        if(account === null){
+            ctx.body = userId;
+        }
+    } catch (e) {
+        ctx.throw(403, e);
+    }
+
+    ctx.body = account.userId;
+};
+
+exports.userEmailCheck = async (ctx) => {
+
+    const { email } = ctx.request.body;
+
+    let account = null;
+
+    try{
+        account = await Account.findByEmail(email);
+        if(account === null){
+            ctx.body = email;
+        }
+    } catch (e) {
+        ctx.throw(403, e);
+    }
+
+    ctx.body = account.profile.email;
+};
+
+

@@ -7,5 +7,8 @@ auth.post('/login/local', authController.localLogin);
 auth.get('/exists/:key(email|userId)/:value', authController.exists);
 auth.post('/logout', authController.logout);
 auth.get('/check', authController.check);
+auth.post('/check', authController.check);
+auth.post('/id-check', authController.userIdCheck);
+auth.post('/email-check', authController.userEmailCheck);
 
 module.exports = auth;
